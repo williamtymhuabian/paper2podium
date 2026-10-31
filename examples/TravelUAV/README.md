@@ -20,7 +20,7 @@ A0 PDF 在 `showcase/poster/`，成片 MP4 在 `showcase/video/`。按下述步�
 
 ```bash
 # 0) 依赖
-pip install PyMuPDF python-pptx pillow qrcode[pil]
+pip install PyMuPDF python-pptx pillow qrcode[pil] edge-tts imageio-ffmpeg
 
 # 1) 下载论文 PDF（arXiv 2410.07087）
 curl -sL -o TravelUAV.pdf https://arxiv.org/pdf/2410.07087
