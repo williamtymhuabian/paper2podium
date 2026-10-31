@@ -5,3 +5,18 @@ TravelUAV.pdf
 paper_text.txt
 figures/
 bg/
+
+# Generated poster/video intermediates
+examples/TravelUAV/poster/preview/
+examples/TravelUAV/poster/*.pptx
+examples/TravelUAV/poster/*.pdf
+examples/TravelUAV/video/frames/
+examples/TravelUAV/video/audio/
+examples/TravelUAV/video/segments/
+examples/TravelUAV/video/storyboard/
+examples/TravelUAV/video/qa/
+examples/TravelUAV/video/*.mp4
+examples/TravelUAV/video/*.ass
+examples/TravelUAV/video/list.txt
+examples/TravelUAV/video/silent.mp4
+examples/TravelUAV/video/qr_arxiv.png

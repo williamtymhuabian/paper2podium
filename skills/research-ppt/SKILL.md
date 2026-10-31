@@ -1,6 +1,6 @@
 ---
 name: research-ppt
-description: 生成科研/学术风格的精美演示文稿：组会汇报、学术会议报告、毕业论文答辩、开题/结题、基金申报、论文讲解。当用户提到"科研PPT、学术PPT、答辩PPT、组会PPT、论文汇报、学术报告、开题、中期、结题、lab meeting、thesis defense"，或要求"把这篇论文做成PPT/汇报"、"从论文 PDF 提取框架图/实验图放进幻灯片"时使用。基于 Assertion-Evidence 学术排版规范与 Nature/Science 图表美学，内置从论文 PDF 精准分割框架图的高清提取管线。
+description: 生成科研/学术风格的精美演示文稿与配套物料：组会汇报、学术会议报告、毕业论文答辩、开题/结题、基金申报、论文讲解、A0 学术海报、3 分钟论文宣传片。当用户提到"科研PPT、学术PPT、答辩PPT、组会PPT、论文汇报、学术报告、开题、中期、结题、lab meeting、thesis defense、学术海报、A0 poster、海报、3分钟视频、论文宣传片、paper video"，或要求"把这篇论文做成PPT/汇报/海报/视频"、"从论文 PDF 提取框架图/实验图放进幻灯片"时使用。基于 Assertion-Evidence 学术排版规范与 Nature/Science 图表美学，内置从论文 PDF 精准分割框架图的高清提取管线。
 ---
 
 # 科研 PPT（学术演示文稿）
@@ -13,6 +13,7 @@ description: 生成科研/学术风格的精美演示文稿：组会汇报、学
 
 - `references/design-system.md` —— 配色 / 字体 / 逐页版式配方（含坐标），**写构建脚本前必读**
 - `references/figure-extraction.md` —— 论文 PDF 图表提取的实战细节与疑难场景，**输入含论文 PDF 时必读**
+- `references/poster-and-video.md` —— A0 海报与 3 分钟论文视频的版式、分镜、TTS/ffmpeg 管线与版权清单，**做海报或宣传片时必读**
 
 ## 0. 触发后的第一件事：盘点素材
 
@@ -86,3 +87,27 @@ python3 <skill_dir>/scripts/extract_figures.py paper.pdf -o figures/ --crop 3,72
 - ❌ 整段文字贴页（讲稿放备注，不放页面）
 - ❌ 无来源的数据、编造的实验数字
 - ❌ 图片放大到超过其分辨率（450dpi 提取就是为了投影不糊）
+
+## 7. 延伸产物：A0 海报
+
+同一篇论文需要「站台讲解」时，默认做 **A0 竖版三栏海报**，而不是把 deck 放大：
+
+- 画布 33.11 × 46.81 in，三栏 9.87 in、栏距 0.65 in、页边距 1.1 in
+- 标题 72 pt，小节 40 pt（**单行、≤ ~20 字符**），正文 26–30 pt，图注 18–19 pt
+- 右栏放主数字（如 `2.1×`）与主表；右上角 3.1 in arXiv 二维码
+- 内容只留「一个方法 + 一个主结果 + 一个泛化结论」，其余全部舍弃
+- 交付 PDF 给打印店；缩略到 480 px 仍可读，二维码必须可解码
+
+完整模板、三栏内容清单与 QA 见 `references/poster-and-video.md`。
+
+## 8. 延伸产物：3 分钟论文宣传片
+
+需要投稿系统/主页/社交媒体的短视频时，按 **10 段 × 12–22 s** 做 2:50–3:10 的 1080p 视频：
+
+- 主线：钩子 → 缺口 → 平台 → 数据 → 基准 → 方法 → 主结果 → 泛化 → 定性 → 行动
+- 画面：PIL 2× 超采样静帧 + ffmpeg `zoompan` 1.00→1.05 缓慢推近，段间 0.35 s 淡入淡出
+- 配音：edge-tts 分段生成（350–380 词，约 140 wpm），每段后留 1.2 s
+- 字幕：ASS 38 pt 底部安全区烧录，同时输出 `.srt`；响度 `loudnorm I=-16 LUFS`
+- 交付：1920×1080 / 30 fps / CRF 24 / faststart，20–30 MB
+
+分镜表、可复制命令与版权清单见 `references/poster-and-video.md`。
